@@ -1,6 +1,8 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"github.com/sdcoffey/big"
+)
 
 type emaIndicator struct {
 	indicator   Indicator

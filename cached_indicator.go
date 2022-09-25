@@ -1,6 +1,8 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"github.com/sdcoffey/big"
+)
 
 type resultCache []*big.Decimal
 
@@ -30,11 +32,17 @@ func expandResultCache(indicator cachedIndicator, newSize int) {
 }
 
 func returnIfCached(indicator cachedIndicator, index int, firstValueFallback func(int) big.Decimal) *big.Decimal {
+
 	if index >= len(indicator.cache()) {
 		expandResultCache(indicator, index+1)
 	} else if index < indicator.windowSize()-1 {
 		return &big.ZERO
 	} else if val := indicator.cache()[index]; val != nil {
+		firstNoValIndex := firstNoValCacheIndex(indicator.cache())
+		//don't return cache in window
+		if index > firstNoValIndex-indicator.windowSize() {
+			return nil
+		}
 		return val
 	} else if index == indicator.windowSize()-1 {
 		value := firstValueFallback(index)
@@ -43,4 +51,13 @@ func returnIfCached(indicator cachedIndicator, index int, firstValueFallback fun
 	}
 
 	return nil
+}
+
+func firstNoValCacheIndex(r resultCache) int {
+	for i, v := range r {
+		if v == nil {
+			return i
+		}
+	}
+	return 0
 }
