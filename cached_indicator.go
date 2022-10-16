@@ -54,9 +54,10 @@ func returnIfCached(indicator cachedIndicator, index int, firstValueFallback fun
 }
 
 func firstNoValCacheIndex(r resultCache) int {
-	for i, v := range r {
-		if v == nil {
-			return i
+	l := len(r)
+	for index := l - 1; index >= 0; index-- {
+		if r[index] != nil {
+			return index
 		}
 	}
 	return 0
