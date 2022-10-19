@@ -3,6 +3,7 @@ package techan
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/sdcoffey/big"
 )
@@ -16,6 +17,7 @@ type Candle struct {
 	MinPrice   big.Decimal
 	Volume     big.Decimal
 	TradeCount uint
+	CTime      time.Time
 }
 
 // NewCandle returns a new *Candle for a given time period
