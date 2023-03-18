@@ -40,7 +40,7 @@ func returnIfCached(indicator cachedIndicator, index int, firstValueFallback fun
 	} else if val := indicator.cache()[index]; val != nil {
 		firstNoValIndex := firstNoValCacheIndex(indicator.cache())
 		//don't return cache in window
-		if index > firstNoValIndex-indicator.windowSize() {
+		if index > firstNoValIndex-1 {
 			return nil
 		}
 		return val
